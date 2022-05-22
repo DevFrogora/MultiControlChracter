@@ -11,7 +11,7 @@ public class PlayerParachuteControl : MonoBehaviour, IInteractable
     public GameObject driverPosition;
     public bool isInParachute = false;
 
-    public Vector3 cameraOffset = new Vector3(0.3795f, -1.23f, -4.739f);
+    public Vector3 cameraOffset = new Vector3(0.3795f, 0.43f, -4.739f);
     GameObject driverSeat;
     public PlayerStatus.Status currentParachuteEnvStatus = PlayerStatus.Status.IsInParachute;
 

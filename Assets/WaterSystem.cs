@@ -7,16 +7,17 @@ public class WaterSystem : MonoBehaviour
     public GameObject Water;
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<SwimmingLink>().enabled = true;
-        other.gameObject.GetComponent<SwimmingLink>()._waterSurfacePosY = Water.transform.position.y; // adjusted  +1.6f
-        other.gameObject.GetComponent<SwimmingLink>()._isInWater = true;
+        //other.gameObject.GetComponentInChildren<BodyParts>().Head.SetActive(true);
+        other.gameObject.GetComponentInChildren<HeadSwimmingLink>().enabled = true;
+        other.gameObject.GetComponentInChildren<HeadSwimmingLink>()._waterSurfacePosY = Water.transform.position.y; // adjusted  +1.6f
 
     }
 
     private void OnTriggerExit(Collider other)
     {
-        other.gameObject.GetComponent<SwimmingLink>()._isInWater = false;
-        other.gameObject.GetComponent<SwimmingLink>().enabled = false;
+        other.gameObject.GetComponentInChildren<HeadSwimmingLink>().enabled = false;
+
+
 
     }
 

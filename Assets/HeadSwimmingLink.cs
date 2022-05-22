@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SwimmingLink : MonoBehaviour
+public class HeadSwimmingLink : MonoBehaviour
 {
     private InputActionMap swimmingActionMap;
     Vector2 input;
@@ -50,10 +50,10 @@ public class SwimmingLink : MonoBehaviour
         _defFogDensity = RenderSettings.fogDensity;
         _defFogColor = RenderSettings.fogColor;
         _defFogEnabled = RenderSettings.fog;
-        Debug.Log(transform.root);
-        swimmingActionMap = GetComponent<ActionMapManager>().SwitchActionMap("Swimming");
-        walkAnimator = GetComponent<Animator>();
-        swimAnimator = GetComponent<Animator>();
+        //Debug.Log(transform.root.gameObject.GetComponent<ActionMapManager>().currentActionMap.ToString());
+        swimmingActionMap = transform.root.gameObject.GetComponent<ActionMapManager>().SwitchActionMap("Swimming");
+        walkAnimator = transform.root.gameObject.GetComponent<Animator>();
+        swimAnimator = transform.root.gameObject.GetComponent<Animator>();
         swimmingActionMap["SwimUp"].performed += SwimUpPerformed;
         swimmingActionMap["SwimUp"].canceled += SwimUpCanceled;
 
@@ -85,19 +85,19 @@ public class SwimmingLink : MonoBehaviour
         swimYDirection = 0; btnShift = false;
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    _isInWater = true;
-    //    swimAnimator.SetLayerWeight(3, 1);
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        _isInWater = true;
+        swimAnimator.SetLayerWeight(3, 1);
+    }
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    _isInWater = false;
+    private void OnTriggerExit(Collider other)
+    {
+        _isInWater = false;
 
-    //    GetComponent<ActionMapManager>().SwitchActionMap("Land");
-    //    GetComponent<Animator>().SetLayerWeight(3, 0);
-    //}
+        transform.root.gameObject.GetComponent<ActionMapManager>().SwitchActionMap("Land");
+        transform.root.gameObject.GetComponent<Animator>().SetLayerWeight(3, 0);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -115,24 +115,13 @@ public class SwimmingLink : MonoBehaviour
         //Handle Swimming
         if (_isInWater)
         {
-            if (IsUnderwater())
-            {
-                GetComponent<Rigidbody>().useGravity = false;
-                GetComponent<Rigidbody>().isKinematic = true;
-
+                //transform.root.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                //transform.root.gameObject.GetComponent<Rigidbody>().isKinematic = true;
                 PlayerStatus.Instance.status = PlayerStatus.Status.IsSwimming;
                 DoDiving();
-            }
-            else
-            {
-                swimAnimator.SetLayerWeight(3, 0);
-
-                DoWalking();
-            }
         }
         else
         {
-            swimAnimator.SetLayerWeight(3, 0);
             DoWalking();
         }
 
@@ -140,7 +129,8 @@ public class SwimmingLink : MonoBehaviour
 
     void DoDiving()
     {
-        transform.position += new Vector3(input.x, swimYDirection, input.y);
+        swimAnimator.SetLayerWeight(3, 1);
+        transform.root.position += new Vector3(input.x, swimYDirection, input.y) * 0.001f;
         swimAnimator.SetFloat("InputX", input.x);
         swimAnimator.SetFloat("InputY", input.y);
         swimAnimator.SetBool("BtnSpace", btnSpace);
@@ -148,7 +138,9 @@ public class SwimmingLink : MonoBehaviour
     }
     void DoWalking()
     {
-        transform.position += new Vector3(input.x, 0, input.y);
+        swimAnimator.SetLayerWeight(3, 0);
+
+        transform.root.position += new Vector3(input.x, 0, input.y);
         walkAnimator.SetFloat("InputX", input.x);
         walkAnimator.SetFloat("InputY", input.y);
     }
@@ -180,8 +172,8 @@ public class SwimmingLink : MonoBehaviour
         btnSpace = false;
         btnShift = false;
         _isInWater = false;
-        GetComponent<Rigidbody>().useGravity = true;
-        GetComponent<Rigidbody>().isKinematic = false;
+        transform.root.gameObject.GetComponent<Rigidbody>().useGravity = true;
+        transform.root.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         RenderSettings.fog = _defFogEnabled;
         RenderSettings.fogColor = _defFogColor;
         RenderSettings.fogDensity = _defFogDensity;
