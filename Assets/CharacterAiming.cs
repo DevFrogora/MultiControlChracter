@@ -18,7 +18,7 @@ public class CharacterAiming : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!(PlayerStatus.Instance.status == PlayerStatus.Status.IsOnLand || PlayerStatus.Instance.status == PlayerStatus.Status.IsGliding))
+        if (!(PlayerStatus.Instance.status == PlayerStatus.Status.IsOnLand || PlayerStatus.Instance.status == PlayerStatus.Status.IsGliding || PlayerStatus.Instance.status == PlayerStatus.Status.IsSwimming))
             return;
 
         float yawCamera = mainCamera.transform.rotation.eulerAngles.y;

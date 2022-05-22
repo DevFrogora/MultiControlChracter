@@ -39,10 +39,10 @@ public class PlayerParachuteControl : MonoBehaviour, IInteractable
         return true;
     }
 
-    void activePlayerParachuteLink(Interactor playerInteractor)
+    public void activePlayerParachuteLink(Interactor playerInteractor)
     {
         PlayerStatus.Instance.status = PlayerStatus.Status.IsInParachute;
-
+        isInParachute = true;
         playerInteractor.GetComponent<PlayerParachuteLink>().enabled = true;
         playerInteractor.GetComponent<PlayerParachuteLink>().parachuteController = this;
         playerInteractor.GetComponent<PlayerParachuteLink>().init();
@@ -60,7 +60,8 @@ public class PlayerParachuteControl : MonoBehaviour, IInteractable
     void PlayerAndParachuteTightCoupled(PlayerParachuteLink player)
     {
         // Turn on /off that this need to run when player in parachute
-        player.GetComponent<Animator>().enabled = false;
+        //player.GetComponent<Animator>().enabled = false;
+        player.GetComponent<Animator>().applyRootMotion = false;
         player.GetComponent<Rigidbody>().useGravity = false;
         player.GetComponent<Rigidbody>().isKinematic = true;
         player.GetComponent<CapsuleCollider>().enabled = false;
@@ -71,6 +72,8 @@ public class PlayerParachuteControl : MonoBehaviour, IInteractable
         // player position and rotation when player is attached with parachute
         player.transform.position = driverPosition.transform.position;
         player.transform.rotation = transform.localRotation;
+        Debug.Log("Parachute Player Rotation : " + player.transform.rotation);
+        Debug.Log("Parachute  Rotation : " + transform.rotation);
 
         // setting player as child of parachute
         player.transform.parent = WrapSeatToPlayer(driverPosition.transform);
@@ -133,10 +136,14 @@ public class PlayerParachuteControl : MonoBehaviour, IInteractable
     {
         if(PlayerStatus.Instance.status == PlayerStatus.Status.IsInParachute)
         {
-            if (collision.collider.gameObject.tag != "Water")
+            if (collision.collider.gameObject.tag == "Water" || collision.collider.gameObject.tag == "Land")
             {
                 currentParachuteEnvStatus = PlayerStatus.Status.IsOnLand;
+                GetComponentInChildren<Animator>().applyRootMotion = true;
+                GetComponentInChildren<Animator>().SetLayerWeight(4,0);
                 GetComponentInChildren<PlayerParachuteLink>().ExitDependsOnEnvironment("Land", currentParachuteEnvStatus);
+
+                Debug.Log("Player Collide with land fired , In Parachute");
             }
         }
     }

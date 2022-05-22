@@ -587,15 +587,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Open"",
-                    ""type"": ""Button"",
-                    ""id"": ""ccfb8f35-5ab3-4836-b4ce-4af3e6852857"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -664,15 +655,136 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Swimming"",
+            ""id"": ""375a425b-f3b5-4ce0-b19f-0af465907d2b"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""5f8691a8-4241-428e-8605-9672a270eafe"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""1e97b1c5-305d-467b-a784-0202c5aea6af"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""name"": ""Look"",
+                    ""type"": ""Button"",
+                    ""id"": ""7be32aa7-de8c-4146-b1a5-a4f2731e319d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwimUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee0c4d32-f85c-4e88-92b0-6af26524b371"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwimDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""37220e2c-91ba-4a1e-a77f-f86e5804141c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""752eab38-dbe4-4a7d-bd2d-29fd29332c63"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Open"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""aa0cffdf-ddb0-4d82-b37e-fefdb75ae414"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9ce9ae73-53b3-4812-bb13-c7396aee8f46"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a22c47cd-e87e-439c-b014-017093402a60"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""be3abbdd-a4d6-4b64-a77a-4a78050cee17"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de2aab98-90f5-4aa3-838f-d422a8501e48"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7002326-530d-490d-9ec5-bfabb29ab4c2"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwimUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5f359eb-b199-478a-b589-c6f5c35e49a3"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwimDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -708,7 +820,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Parachute = asset.FindActionMap("Parachute", throwIfNotFound: true);
         m_Parachute_Move = m_Parachute.FindAction("Move", throwIfNotFound: true);
         m_Parachute_Exit = m_Parachute.FindAction("Exit", throwIfNotFound: true);
-        m_Parachute_Open = m_Parachute.FindAction("Open", throwIfNotFound: true);
+        // Swimming
+        m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
+        m_Swimming_Move = m_Swimming.FindAction("Move", throwIfNotFound: true);
+        m_Swimming_Look = m_Swimming.FindAction("Look", throwIfNotFound: true);
+        m_Swimming_SwimUp = m_Swimming.FindAction("SwimUp", throwIfNotFound: true);
+        m_Swimming_SwimDown = m_Swimming.FindAction("SwimDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1008,14 +1125,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IParachuteActions m_ParachuteActionsCallbackInterface;
     private readonly InputAction m_Parachute_Move;
     private readonly InputAction m_Parachute_Exit;
-    private readonly InputAction m_Parachute_Open;
     public struct ParachuteActions
     {
         private @PlayerControls m_Wrapper;
         public ParachuteActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Parachute_Move;
         public InputAction @Exit => m_Wrapper.m_Parachute_Exit;
-        public InputAction @Open => m_Wrapper.m_Parachute_Open;
         public InputActionMap Get() { return m_Wrapper.m_Parachute; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1031,9 +1146,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Exit.started -= m_Wrapper.m_ParachuteActionsCallbackInterface.OnExit;
                 @Exit.performed -= m_Wrapper.m_ParachuteActionsCallbackInterface.OnExit;
                 @Exit.canceled -= m_Wrapper.m_ParachuteActionsCallbackInterface.OnExit;
-                @Open.started -= m_Wrapper.m_ParachuteActionsCallbackInterface.OnOpen;
-                @Open.performed -= m_Wrapper.m_ParachuteActionsCallbackInterface.OnOpen;
-                @Open.canceled -= m_Wrapper.m_ParachuteActionsCallbackInterface.OnOpen;
             }
             m_Wrapper.m_ParachuteActionsCallbackInterface = instance;
             if (instance != null)
@@ -1044,13 +1156,67 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Exit.started += instance.OnExit;
                 @Exit.performed += instance.OnExit;
                 @Exit.canceled += instance.OnExit;
-                @Open.started += instance.OnOpen;
-                @Open.performed += instance.OnOpen;
-                @Open.canceled += instance.OnOpen;
             }
         }
     }
     public ParachuteActions @Parachute => new ParachuteActions(this);
+
+    // Swimming
+    private readonly InputActionMap m_Swimming;
+    private ISwimmingActions m_SwimmingActionsCallbackInterface;
+    private readonly InputAction m_Swimming_Move;
+    private readonly InputAction m_Swimming_Look;
+    private readonly InputAction m_Swimming_SwimUp;
+    private readonly InputAction m_Swimming_SwimDown;
+    public struct SwimmingActions
+    {
+        private @PlayerControls m_Wrapper;
+        public SwimmingActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Swimming_Move;
+        public InputAction @Look => m_Wrapper.m_Swimming_Look;
+        public InputAction @SwimUp => m_Wrapper.m_Swimming_SwimUp;
+        public InputAction @SwimDown => m_Wrapper.m_Swimming_SwimDown;
+        public InputActionMap Get() { return m_Wrapper.m_Swimming; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SwimmingActions set) { return set.Get(); }
+        public void SetCallbacks(ISwimmingActions instance)
+        {
+            if (m_Wrapper.m_SwimmingActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnMove;
+                @Look.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+                @SwimUp.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnSwimUp;
+                @SwimUp.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnSwimUp;
+                @SwimUp.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnSwimUp;
+                @SwimDown.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnSwimDown;
+                @SwimDown.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnSwimDown;
+                @SwimDown.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnSwimDown;
+            }
+            m_Wrapper.m_SwimmingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @SwimUp.started += instance.OnSwimUp;
+                @SwimUp.performed += instance.OnSwimUp;
+                @SwimUp.canceled += instance.OnSwimUp;
+                @SwimDown.started += instance.OnSwimDown;
+                @SwimDown.performed += instance.OnSwimDown;
+                @SwimDown.canceled += instance.OnSwimDown;
+            }
+        }
+    }
+    public SwimmingActions @Swimming => new SwimmingActions(this);
     public interface ILandActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -1084,6 +1250,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
-        void OnOpen(InputAction.CallbackContext context);
+    }
+    public interface ISwimmingActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnSwimUp(InputAction.CallbackContext context);
+        void OnSwimDown(InputAction.CallbackContext context);
     }
 }

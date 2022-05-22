@@ -9,7 +9,7 @@ public class GlidingLink : MonoBehaviour
     Vector2 input;
     Animator animator;
     bool isGliding;
-
+    public GameObject parachutePrefab;
     private void Awake()
     {
         //this.OnDisable();
@@ -66,8 +66,18 @@ public class GlidingLink : MonoBehaviour
     }
     private void GlidingOpenParachute(InputAction.CallbackContext context)
     {
-        //parachuteController.currentParachuteEnvStatus = PlayerStatus.Status.IsOnLand;
-        //ExitDependsOnEnvironment("Land", parachuteController.currentParachuteEnvStatus);
+        Debug.Log("Transform rotation of player : " + transform.rotation);
+        parachutePrefab = Instantiate(parachutePrefab, transform.position , transform.localRotation);
+        ExitDependsOnEnvironment("Parachute", PlayerStatus.Instance.status);
+        //GetComponent<ActionMapManager>().SwitchActionMap("Parachute");
+        animator.SetBool("ParachuteOpen", true);
+        animator.SetLayerWeight(2, 0);
+        animator.SetLayerWeight(4, 1);
+        PlayerStatus.Instance.status = PlayerStatus.Status.IsInParachute;
+        parachutePrefab.GetComponent<PlayerParachuteControl>().activePlayerParachuteLink(GetComponent<Interactor>());
+
+
+
     }
 
     public void ExitDependsOnEnvironment(string area, PlayerStatus.Status environementStatus)

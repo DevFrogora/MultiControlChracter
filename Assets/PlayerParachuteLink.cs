@@ -8,7 +8,7 @@ public class PlayerParachuteLink : MonoBehaviour
     private InputActionMap parachuteActionMap;
     public PlayerParachuteControl parachuteController;
     Vector2 input;
-
+    Animator animator;
     private void Awake()
     {
         //this.OnDisable();
@@ -25,6 +25,7 @@ public class PlayerParachuteLink : MonoBehaviour
             parachuteActionMap["Move"].performed += ParachuteMovePerformed;
             parachuteActionMap["Move"].canceled += ParachuteMoveCanceled;
             parachuteActionMap["Exit"].performed += ParachuteExitPerformed;
+            animator = GetComponent<Animator>();
 
         }
 
@@ -34,6 +35,7 @@ public class PlayerParachuteLink : MonoBehaviour
     {
         // enter this player to the parachute
         parachuteController.PlayerEnterParachute(this);
+        GetComponent<GlidingLink>().enabled = false;
     }
 
     private void ParachuteMovePerformed(InputAction.CallbackContext context)
@@ -81,24 +83,44 @@ public class PlayerParachuteLink : MonoBehaviour
 
     }
 
+    void Player_animation(Vector2 input)
+    {
+        animator.SetFloat("InputX", input.x);
+        animator.SetFloat("InputY", input.y);
+    }
+
     private void Update()
     {
         if (!parachuteController.isInParachute)
             return;
         //Inputs
         input = parachuteActionMap["Move"].ReadValue<Vector2>();
+        Player_animation(input);
         if(input.y>0)
         {
-            parachuteController.FlyForwardSpeed += 5 * Time.deltaTime;
-            parachuteController.FlyForwardSpeed = parachuteController.FlyForwardSpeed < 20 ? parachuteController.FlyForwardSpeed : 20;
+            parachuteController.FlyForwardSpeed += 10 * Time.deltaTime;
+            parachuteController.FlyForwardSpeed = parachuteController.FlyForwardSpeed < 50 ? parachuteController.FlyForwardSpeed : 50;
 
             parachuteController.FlyDownwardSpeed += 2 * Time.deltaTime;
-            parachuteController.FlyDownwardSpeed = parachuteController.FlyDownwardSpeed < 10 ? parachuteController.FlyDownwardSpeed : 10;
+            parachuteController.FlyDownwardSpeed = parachuteController.FlyDownwardSpeed < 7 ? parachuteController.FlyDownwardSpeed : 7;
 
             //flySpeedVector = new  Vector3(0, 0, FlyForwardSpeed);
         }
+
+
+        if (input.y < 0)
+        {
+            parachuteController.FlyForwardSpeed -= 10 * Time.deltaTime;
+            parachuteController.FlyForwardSpeed = parachuteController.FlyForwardSpeed < 1 ? parachuteController.FlyForwardSpeed : 0;
+
+            parachuteController.FlyDownwardSpeed += 2 * Time.deltaTime;
+            parachuteController.FlyDownwardSpeed = parachuteController.FlyDownwardSpeed < 5 ? parachuteController.FlyDownwardSpeed : 5;
+
+            //flySpeedVector = new  Vector3(0, 0, FlyForwardSpeed);
+        }
+
         // down the value
-        if(input == Vector2.zero)
+        if (input == Vector2.zero)
         {
             parachuteController.FlyForwardSpeed -= 0.2f * Time.deltaTime;
             parachuteController.FlyForwardSpeed = parachuteController.FlyForwardSpeed < 5 ? 5 : parachuteController.FlyForwardSpeed;
@@ -111,16 +133,34 @@ public class PlayerParachuteLink : MonoBehaviour
         parachuteController.transform.position +=( parachuteController.transform.forward * parachuteController.FlyForwardSpeed + parachuteController.transform.up * (-parachuteController.FlyDownwardSpeed))* Time.deltaTime;
 
         //Yaw.Pitch,roll
+        parachuteController.Yaw = transform.eulerAngles.y;
         parachuteController.Yaw += input.x * parachuteController.YawAmount * Time.deltaTime;
         float pitch = Mathf.Lerp(0, 20, Mathf.Abs(input.y)) * Mathf.Sign(input.y);
         float roll = Mathf.Lerp(0, 30, Mathf.Abs(input.x)) * Mathf.Sign(input.x);
 
+        //if(i < 1)
+        //{
+        //    StartCoroutine(waiter());
+        //}
+        //else
+        //{
+        //    //parachuteController.transform.localRotation = Quaternion.Lerp(parachuteController.transform.localRotation, Quaternion.Euler((Vector3.up * parachuteController.Yaw + Vector3.right * pitch + Vector3.forward * (-roll))),7f * Time.deltaTime);
+        //    parachuteController.transform.localRotation = Quaternion.Lerp(parachuteController.transform.localRotation, Quaternion.Euler((Vector3.up * parachuteController.Yaw + Vector3.right * pitch + Vector3.forward * (-roll))), 7f * Time.deltaTime);
+        //    Debug.Log(parachuteController.transform.rotation.eulerAngles);
+        //}
         //apply rotation
         //parachuteController.transform.localRotation = Quaternion.Euler((Vector3.up * Yaw + Vector3.right * pitch + Vector3.forward * roll));
-        parachuteController.transform.localRotation = Quaternion.Lerp(parachuteController.transform.localRotation, Quaternion.Euler((Vector3.up * parachuteController.Yaw + Vector3.right * pitch + Vector3.forward * (-roll))),7f * Time.deltaTime);
+        parachuteController.transform.localRotation = Quaternion.Lerp(parachuteController.transform.localRotation, Quaternion.Euler((Vector3.up * parachuteController.Yaw + Vector3.right * pitch + Vector3.forward * (-roll))), 7f * Time.deltaTime);
 
 
 
+    }
+    int i = 0;
+    IEnumerator waiter()
+    {
+        yield return new WaitForSeconds(5);
+        Debug.Log(transform.rotation.eulerAngles);
+        i++;
     }
 
 

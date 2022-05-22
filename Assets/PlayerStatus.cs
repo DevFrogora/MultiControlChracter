@@ -13,6 +13,7 @@ public class PlayerStatus : Singletone<PlayerStatus>
         IsInParachute,
         IsOnLand,
         IsGliding,
+        IsSwimming,
         
     }
 
